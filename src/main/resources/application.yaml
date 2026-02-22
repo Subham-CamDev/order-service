@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: Order Service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/order-service
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: order_service
+  flyway:
+    schemas: order_service
+    default-schema: order_service
+    create-schemas: true
+
+server:
+  port: 8081
+
+service:
+  inventory:
+    base-url: http://localhost:8082
+    endpoints:
+      check-stock: /api/inventory/check
