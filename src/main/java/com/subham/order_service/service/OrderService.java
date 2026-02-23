@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 public class OrderService {
 
   private final OrderRepository orderRepository;
-  private final InventoryServiceClient inventoryClient;
+  private final InventoryServiceClient inventoryServiceClient;
 
   public void placeOrder(OrderRequest request) {
-    boolean inStock = inventoryClient.isInStock(request.skuCode());
+    boolean inStock = inventoryServiceClient.isInStock(request.skuCode());
 
     if (inStock) {
       log.info("Product with SKU: {} is in stock. Placing order.", request.skuCode());
