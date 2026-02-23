@@ -2,6 +2,9 @@ package com.subham.order_service.controller;
 
 import com.subham.order_service.dto.OrderRequest;
 import com.subham.order_service.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,11 @@ public class OrderController {
 
   private final OrderService orderService;
 
+  @Operation(description = "Place an order for products. The request should contain the code, quantity and price.")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "201", description = "Order Placed Successfully"),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error")
+  })
   @PostMapping
   public ResponseEntity<String> placeOrder(@RequestBody OrderRequest request) {
     try {
