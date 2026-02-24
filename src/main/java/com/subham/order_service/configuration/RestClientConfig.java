@@ -4,9 +4,12 @@ import com.subham.order_service.client.InventoryServiceClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
+
+import java.time.Duration;
 
 @Configuration
 public class RestClientConfig {
@@ -16,17 +19,21 @@ public class RestClientConfig {
 
   @Bean
   public InventoryServiceClient inventoryServiceClient() {
+    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+    requestFactory.setConnectTimeout(Duration.ofSeconds(1L));
+    requestFactory.setReadTimeout(Duration.ofSeconds(5L));
     //Build RestClient with base URL
     RestClient restClient = RestClient.builder()
             .baseUrl(baseUrl)
             .defaultHeader("Content-Type", "application/json")
             .defaultHeader("Accept", "application/json")
+            .requestFactory(requestFactory)
             .build();
 
     //Create adapter
     RestClientAdapter adapter = RestClientAdapter.create(restClient);
 
-    //Create proxy factory
+    //Create proxy requestFactory
     HttpServiceProxyFactory factory =
             HttpServiceProxyFactory.builderFor(adapter).build();
 
