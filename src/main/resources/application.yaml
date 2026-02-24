@@ -25,3 +25,51 @@ server:
 service:
   inventory:
     base-url: http://localhost:8082
+
+#Spring Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+#Resilience4j configuration for circuit breaker
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventoryServiceCB:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 2s
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        registerHealthIndicator: true
+
+  #Resilience4j timer configuration for monitoring
+  timelimiter:
+    instances:
+      inventoryServiceTL:
+        timeoutDuration: 3s
+        cancelRunningFuture: true
+
+  #Retry configuration for retrying failed calls
+  retry:
+    instances:
+      inventoryServiceRetry:
+        maxAttempts: 3
+        waitDuration: 2s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+        retryExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.io.IOException
