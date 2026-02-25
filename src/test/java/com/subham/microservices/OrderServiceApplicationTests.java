@@ -1,4 +1,4 @@
-package com.subham.order_service;
+package com.subham.microservices;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import io.restassured.RestAssured;

@@ -1,6 +1,6 @@
-package com.subham.order_service.repository;
+package com.subham.microservices.repository;
 
-import com.subham.order_service.entity.Order;
+import com.subham.microservices.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

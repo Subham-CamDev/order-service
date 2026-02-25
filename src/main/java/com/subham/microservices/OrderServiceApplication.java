@@ -1,4 +1,4 @@
-package com.subham.order_service;
+package com.subham.microservices;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

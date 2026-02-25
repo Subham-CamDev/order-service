@@ -1,7 +1,7 @@
-package com.subham.order_service.controller;
+package com.subham.microservices.controller;
 
-import com.subham.order_service.dto.OrderRequest;
-import com.subham.order_service.service.OrderService;
+import com.subham.microservices.dto.OrderRequest;
+import com.subham.microservices.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

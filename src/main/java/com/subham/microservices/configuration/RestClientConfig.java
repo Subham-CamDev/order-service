@@ -1,6 +1,6 @@
-package com.subham.order_service.configuration;
+package com.subham.microservices.configuration;
 
-import com.subham.order_service.client.InventoryServiceClient;
+import com.subham.microservices.client.InventoryServiceClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
