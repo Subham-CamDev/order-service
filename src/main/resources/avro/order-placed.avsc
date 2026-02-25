@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "OrderPlacedEvent",
+  "namespace": "com.subham.microservices.events",
+  "fields": [
+    { "name": "orderNumber", "type": "string" },
+    { "name": "email", "type": "string" }
+  ]
+}
