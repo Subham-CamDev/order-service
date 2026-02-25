@@ -19,6 +19,15 @@ spring:
     default-schema: order_service
     create-schemas: true
 
+  #Kafka configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: order-placed
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 server:
   port: 8081
 
