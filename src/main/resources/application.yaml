@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Order Service
+    name: order-service
 
   datasource:
     url: jdbc:postgresql://localhost:5433/order-service
@@ -84,3 +84,11 @@ resilience4j:
         retryExceptions:
           - org.springframework.web.client.HttpServerErrorException
           - java.io.IOException
+
+#Eureka client configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
