@@ -3,7 +3,7 @@ spring:
     name: order-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/order-service
+    url: jdbc:postgresql://localhost:5433/postgres
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
@@ -49,6 +49,31 @@ management:
   health:
     circuitbreakers:
       enabled: true
+  observations:
+    key-values:
+      application: order-service
+
+  #Tracing configs
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces # Endpoint for traces
+    logging:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/logs # Endpoint for logs
+    otlp:
+      metrics:
+        export:
+          endpoint: http://localhost:4318/v1/metrics # Endpoint for metrics
+          step: 2s # Export interval
+otel:
+  service:
+    name: order-service
 
 #Resilience4j configuration for circuit breaker
 resilience4j:
