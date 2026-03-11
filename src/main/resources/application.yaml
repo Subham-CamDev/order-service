@@ -55,25 +55,9 @@ management:
 
   #Tracing configs
   tracing:
+    enabled: true
     sampling:
       probability: 1.0
-  opentelemetry:
-    tracing:
-      export:
-        otlp:
-          endpoint: http://localhost:4318/v1/traces # Endpoint for traces
-    logging:
-      export:
-        otlp:
-          endpoint: http://localhost:4318/v1/logs # Endpoint for logs
-    otlp:
-      metrics:
-        export:
-          endpoint: http://localhost:4318/v1/metrics # Endpoint for metrics
-          step: 2s # Export interval
-otel:
-  service:
-    name: order-service
 
 #Resilience4j configuration for circuit breaker
 resilience4j:
