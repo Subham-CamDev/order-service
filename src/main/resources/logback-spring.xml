@@ -1,26 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <springProperty scope="context" name="appName" source="spring.application.name"/>
+<configuration scan="true">
+    <springProperty scope="context" name="serviceName" source="spring.application.name" defaultValue="order-service"/>
 
-    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
-        <http>
-            <url>http://localhost:3100/loki/api/v1/push</url>
-        </http>
-        <format>
-            <label>
-                <pattern>application=${appName},host=${HOSTNAME},level=%level</pattern>
-            </label>
-            <message>
-                <pattern>${FILE_LOG_PATTERN}</pattern>
-            </message>
-            <sortByTime>true</sortByTime>
-            <batch maxSize="1000" timeoutMs="60000" sync="false"/>
-        </format>
+    <!-- Console logging (optional, for local debugging) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%X{traceId}] [%X{spanId}] [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Send logs to Logstash via TCP -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5001</destination>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+
+                <pattern>
+                    <pattern>
+                        {
+                        "service.name": "${serviceName}",
+                        "level": "%level",
+                        "traceId": "%X{traceId}",
+                        "spanId": "%X{spanId}",
+                        "thread": "%thread",
+                        "logger": "%logger",
+                        "message": "%message"
+                        }
+                    </pattern>
+                </pattern>
+
+                <stackTrace/>
+            </providers>
+        </encoder>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="LOKI"/>
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGSTASH"/>
     </root>
 </configuration>
